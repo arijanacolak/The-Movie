@@ -1,6 +1,6 @@
-# Movie App
+# The Movie app
 
-Welcome to the Movie App! This is a React-based web application that allows users to browse and search for movies and TV shows.
+Welcome to the The Movie app! This is a React-based web application that allows users to browse and search for movies and TV shows.
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ Welcome to the Movie App! This is a React-based web application that allows user
 
 ## Getting Started
 
-To get started with the Movie App, follow these steps:
+To get started with the The Movie app, follow these steps:
 
 1. Clone this repository to your local machine:
 
@@ -53,7 +53,7 @@ npm start
 
 ## Dependencies
 
-The Movie App relies on the following dependencies:
+The Movie app relies on the following dependencies:
 
 - React: JavaScript library for building user interfaces.
 - React Router DOM: Declarative routing for React.
