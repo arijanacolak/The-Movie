@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "./index.css";
 import { useNavigate, useParams } from "react-router-dom";
 import fetchGridShows from "../../api/fetchGridShows";
 import fetchGridMovies from "../../api/fetchGridMovies";
-import axios from "axios";
 import { debounce } from "lodash";
 import { useSearchTermStore } from "../../store/searchTermStore";
 import { fetchFilteredResult } from "../../api/fetchFilteredResult";
 import Card from "../Card";
+import Loader from "../Loader";
+import "./index.css";
 
 const DEBOUNCE_DELAY = 1000;
 const MIN_SEARCH_LENGTH = 3;
@@ -21,7 +21,6 @@ const Home = () => {
   const searchTerm = useSearchTermStore((state) => state.searchTerm);
   const setSearchTerm = useSearchTermStore((state) => state.setSearchTerm);
 
-  let debounceTimer: any;
   const navigate = useNavigate();
 
   const fetchData = async (tab: string) => {
@@ -50,12 +49,9 @@ const Home = () => {
   useEffect(() => {
     const triggerSearch = async (term: string, selectedTab: string) => {
       if (term.length >= MIN_SEARCH_LENGTH) {
-        await fetchFilteredResult(
-          term,
-          selectedTab,
-          setIsLoading,
-          setSearchResults
-        );
+        setIsLoading(true);
+        await fetchFilteredResult(term, selectedTab, setSearchResults);
+        setIsLoading(false);
       } else {
         fetchData(selectedTab);
       }
@@ -73,12 +69,9 @@ const Home = () => {
   useEffect(() => {
     const triggerSearch = async (term: string, selectedTab: string) => {
       if (term.length >= MIN_SEARCH_LENGTH) {
-        await fetchFilteredResult(
-          term,
-          selectedTab,
-          setIsLoading,
-          setSearchResults
-        );
+        setIsLoading(true);
+        await fetchFilteredResult(term, selectedTab, setSearchResults);
+        setIsLoading(false);
       } else {
         fetchData(selectedTab);
       }
@@ -89,7 +82,9 @@ const Home = () => {
 
   const debouncedHandleChange = debounce((term: string) => {
     if (term.length >= MIN_SEARCH_LENGTH) {
-      fetchFilteredResult(term, selectedTab, setIsLoading, setSearchResults);
+      setIsLoading(true);
+      fetchFilteredResult(term, selectedTab, setSearchResults);
+      setIsLoading(false);
     } else {
       setSearchResults([]);
     }
@@ -130,7 +125,8 @@ const Home = () => {
         />
       </div>
       <div className="grid-container">
-      {!isLoading &&
+        {isLoading && <Loader />}
+        {!isLoading &&
           (searchResults.length > 0
             ? searchResults.map((item) => (
                 <Card

@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const fetchMovieDetails = async (movieId: string) => {
-  console.log("Movie id: ", movieId);
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`;
+const fetchShowDetails = async (movieId: string) => {
+  const url = `https://api.themoviedb.org/3/tv/${movieId}?language=en-US`;
   const options = {
     method: "GET",
     headers: {
@@ -12,7 +11,6 @@ const fetchMovieDetails = async (movieId: string) => {
   };
   try {
     const response = await axios.get(url, options);
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -20,4 +18,4 @@ const fetchMovieDetails = async (movieId: string) => {
   }
 };
 
-export default fetchMovieDetails;
+export default fetchShowDetails;
