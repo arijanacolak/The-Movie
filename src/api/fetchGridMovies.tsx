@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const API_KEY = "API_KEY";
-
 const fetchGridMovies = async () => {
   const url =
     "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc";
@@ -9,7 +7,7 @@ const fetchGridMovies = async () => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
+      Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
     },
   };
   try {

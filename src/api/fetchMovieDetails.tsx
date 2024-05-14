@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const API_KEY = "API_KEY";
-
 const fetchMovieDetails = async (movieId: string) => {
   console.log("Movie id: ", movieId);
   const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`;
@@ -9,7 +7,7 @@ const fetchMovieDetails = async (movieId: string) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
+      Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
     },
   };
   try {

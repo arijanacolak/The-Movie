@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import fetchMovieDetails from "../../api/fetchMovieDetails";
 import "./index.css";
 import fetchShowDetails from "../../api/fetchShowDetails";
@@ -13,7 +13,7 @@ const Details = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMovie = async () => {
+    const fetchDetails = async () => {
       if (!id) {
         console.log(id);
         return;
@@ -33,12 +33,16 @@ const Details = () => {
       }
     };
 
-    fetchMovie();
+    fetchDetails();
   }, [id, type, setItem]);
 
   const handleGoBack = () => {
-    navigate(-1);
+    navigate(`/${type}`);
   };
+
+  const imageUrl = details?.poster_path
+    ? `https://image.tmdb.org/t/p/w500${details?.poster_path}`
+    : "/no-image.png";
 
   return (
     <>
@@ -60,11 +64,7 @@ const Details = () => {
         <span className="back-text">Back</span>
       </div>
       <div className="movie-details-container">
-        <img
-          src={`https://image.tmdb.org/t/p/w500/${details?.poster_path}`}
-          alt={details?.title}
-          className="cover-image"
-        />
+        <img src={imageUrl} alt={details?.title} className="cover-image" />
         <div className="movie-info">
           {type === "movies" ? (
             <h2>{details?.title}</h2>
