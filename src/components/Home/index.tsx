@@ -78,6 +78,7 @@ const Home = () => {
     };
 
     triggerSearch(searchTerm, selectedTab);
+    // eslint-disable-next-line
   }, []);
 
   const debouncedHandleChange = debounce((term: string) => {
@@ -128,15 +129,17 @@ const Home = () => {
         {isLoading && <Loader />}
         {!isLoading &&
           (searchResults.length > 0
-            ? searchResults.map((item) => (
+            ? searchResults.map((item, i) => (
                 <Card
+                  key={i}
                   item={item}
                   selectedTab={selectedTab}
                   handleCardClick={handleCardClick}
                 />
               ))
-            : gridItems.map((item) => (
+            : gridItems.map((item, i) => (
                 <Card
+                  key={i}
                   item={item}
                   selectedTab={selectedTab}
                   handleCardClick={handleCardClick}

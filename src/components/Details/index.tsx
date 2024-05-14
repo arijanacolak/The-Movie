@@ -7,8 +7,7 @@ import { useStore } from "../../store/store";
 import Loader from "../Loader";
 
 const Details = () => {
-  let { id } = useParams();
-  let { type } = useParams();
+  const { id, type } = useParams();
   const [details, setDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const setItem = useStore((state) => state.setItem);
@@ -55,7 +54,7 @@ const Details = () => {
   return (
     <>
       <div className="back-button" onClick={handleGoBack}>
-        <img src="/back-arrow.svg"></img>
+        <img src="/back-arrow.svg" alt=""></img>
         <span className="back-text">Back</span>
       </div>
       <div className="movie-details-container">
