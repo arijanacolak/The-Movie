@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.css";
+import axios from "axios";
+
+const API_KEY = "API_KEY";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTab, setSelectedTab] = useState("shows");
+  const [gridItems, setGridItems] = useState([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -13,19 +17,27 @@ const Home = () => {
     setSelectedTab(tab);
   };
 
-  // Dummy data for grid view
-  const movies = [
-    { id: 1, name: "Movie 1" },
-    { id: 2, name: "Movie 2" },
-    { id: 3, name: "Movie 3" },
-    { id: 4, name: "Movie 4" },
-    { id: 5, name: "Movie 5" },
-    { id: 6, name: "Movie 6" },
-    { id: 7, name: "Movie 7" },
-    { id: 8, name: "Movie 8" },
-    { id: 9, name: "Movie 9" },
-    { id: 10, name: "Movie 10" },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const url =
+        "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc";
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      };
+      try {
+        const response = await axios.get(url, options);
+        setGridItems(response.data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const shows = [
     { id: 1, name: "Show 1" },
@@ -40,9 +52,23 @@ const Home = () => {
     { id: 10, name: "Show 10" },
   ];
 
+  const renderCard = (item: any) => {
+    return (
+      <div key={item.id} className="card">
+        <img
+          src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+          alt={item.name}
+        />
+        <div className="card-content">
+          <h3>{item.name}</h3>
+        </div>
+      </div>
+    );
+  };
+
   const filteredItems =
     selectedTab === "movies"
-      ? movies.filter((item) =>
+      ? gridItems.filter((item: any) =>
           item.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : shows.filter((item) =>
@@ -74,11 +100,7 @@ const Home = () => {
         />
       </div>
       <div className="grid-container">
-        {filteredItems.map((item) => (
-          <div key={item.id} className="grid-item">
-            {item.name}
-          </div>
-        ))}
+        {filteredItems.map((item) => renderCard(item))}
       </div>
     </div>
   );
