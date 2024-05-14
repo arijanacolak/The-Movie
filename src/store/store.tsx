@@ -8,7 +8,7 @@ interface State {
   filteredItems: any[];
   setFilteredItems: (items: any[]) => void;
   selectedMovie: any | null;
-  setSelectedMovie: (movie: any) => void;
+  setItem: (movie: any) => void;
 }
 
 export const useStore = create<State>((set) => ({
@@ -19,5 +19,5 @@ export const useStore = create<State>((set) => ({
   filteredItems: [],
   setFilteredItems: (items) => set({ filteredItems: items }),
   selectedMovie: null,
-  setSelectedMovie: (movie) => set({ selectedMovie: movie }),
+  setItem: (selectedItem) => set({ selectedMovie: selectedItem }),
 }));

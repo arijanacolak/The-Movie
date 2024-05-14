@@ -1,11 +1,11 @@
 import "./App.css";
+import Details from "./components/Details";
 import Home from "./components/Home";
 import {
   Route,
   BrowserRouter,
   Routes,
 } from "react-router-dom";
-import MovieDetails from "./components/MovieDetails";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/movie/:id" element={<MovieDetails />} />
+          <Route path="/:type/:id" element={<Details />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./index.css";
-import fetchGridItems from "../../api/fetchGridItems";
 import { useNavigate } from "react-router-dom";
+import fetchGridShows from "../../api/fetchGridShows";
+import fetchGridMovies from "../../api/fetchGridMovies";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,8 +23,12 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const items = await fetchGridItems();
-
+        let items;
+        if (selectedTab === "movies") {
+          items = await fetchGridMovies();
+        } else {
+          items = await fetchGridShows();
+        }
         setGridItems(items);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -31,11 +36,14 @@ const Home = () => {
     };
 
     fetchData();
-  }, []);
+  }, [selectedTab]);
 
   useEffect(() => {
+    console.log(gridItems[0]);
     const newItems = gridItems.filter((item: any) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      selectedTab === "movies"
+        ? item.title?.toLowerCase().includes(searchTerm.toLowerCase())
+        : item.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredItems(newItems);
@@ -43,13 +51,15 @@ const Home = () => {
 
   const handleCardClick = async (movieId: string) => {
     try {
-      navigate(`/movie/${movieId}`);
+      navigate(`/${selectedTab}/${movieId}`);
     } catch (error) {
       console.error("Error navigating to movie details:", error);
     }
   };
 
   const renderCard = (item: any) => {
+    const title = selectedTab === "movies" ? item.title : item.name;
+
     return (
       <div
         key={item.id}
@@ -58,10 +68,10 @@ const Home = () => {
       >
         <img
           src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-          alt={item.name}
+          alt={title}
         />
         <div className="card-content">
-          <h3>{item.name}</h3>
+          <h3>{title}</h3>
         </div>
       </div>
     );

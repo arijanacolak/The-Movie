@@ -2,9 +2,9 @@ import axios from "axios";
 
 const API_KEY = "API_KEY";
 
-const fetchMovieDetails = async (movieId: string) => {
-  console.log("Movie id: ", movieId);
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`;
+const fetchGridShows = async () => {
+  const url =
+    "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc";
   const options = {
     method: "GET",
     headers: {
@@ -14,12 +14,12 @@ const fetchMovieDetails = async (movieId: string) => {
   };
   try {
     const response = await axios.get(url, options);
-    console.log(response);
-    return response.data;
+    const results = response.data.results.slice(0, 10);
+    return results;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
   }
 };
 
-export default fetchMovieDetails;
+export default fetchGridShows;

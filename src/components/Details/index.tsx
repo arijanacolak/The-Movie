@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import fetchMovieDetails from "../../api/fetchMovieDetails";
 import "./index.css";
+import fetchShowDetails from "../../api/fetchShowDetails";
+import { useStore } from "../../store/store";
 
-const MovieDetails = () => {
+const Details = () => {
   let { id } = useParams();
-  const [movie, setMovie] = useState<any>(null);
+  let { type } = useParams();
+  const [details, setDetails] = useState<any>(null);
+  const setItem = useStore((state) => state.setItem);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,15 +20,21 @@ const MovieDetails = () => {
       }
 
       try {
-        const movieData = await fetchMovieDetails(id);
-        setMovie(movieData);
+        let fetchedDetails;
+        if (type === "movies") {
+          fetchedDetails = await fetchMovieDetails(id);
+        } else if (type === "shows") {
+          fetchedDetails = await fetchShowDetails(id);
+        }
+        setDetails(fetchedDetails);
+        setItem(fetchedDetails);
       } catch (error) {
-        console.error("Error fetching movie details:", error);
+        console.error("Error fetching details:", error);
       }
     };
 
     fetchMovie();
-  }, []);
+  }, [id, type, setItem]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -51,17 +61,21 @@ const MovieDetails = () => {
       </div>
       <div className="movie-details-container">
         <img
-          src={`https://image.tmdb.org/t/p/w500/${movie?.poster_path}`}
-          alt={movie?.title}
+          src={`https://image.tmdb.org/t/p/w500/${details?.poster_path}`}
+          alt={details?.title}
           className="cover-image"
         />
         <div className="movie-info">
-          <h2>{movie?.title}</h2>
-          <p>{movie?.overview}</p>
+          {type === "movies" ? (
+            <h2>{details?.title}</h2>
+          ) : (
+            <h2>{details?.name}</h2>
+          )}
+          <p>{details?.overview}</p>
         </div>
       </div>
     </>
   );
 };
 
-export default MovieDetails;
+export default Details;

@@ -1,6 +1,7 @@
 .movie-details-container {
   max-width: 800px;
   margin: 0 auto;
+  margin-bottom: 30px;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;

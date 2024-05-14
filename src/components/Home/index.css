@@ -1,18 +1,19 @@
 .home-container {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .tab-buttons {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .tab-buttons button {
   background-color: transparent;
   border: none;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   cursor: pointer;
   color: #333;
@@ -64,6 +65,7 @@
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -75,4 +77,9 @@
   height: auto;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+.card-content {
+  padding-left: 3px;
+  padding-right: 3px;
 }

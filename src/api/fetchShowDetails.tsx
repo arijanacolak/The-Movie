@@ -2,9 +2,8 @@ import axios from "axios";
 
 const API_KEY = "API_KEY";
 
-const fetchMovieDetails = async (movieId: string) => {
-  console.log("Movie id: ", movieId);
-  const url = `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`;
+const fetchShowDetails = async (movieId: string) => {
+  const url = `https://api.themoviedb.org/3/tv/${movieId}?language=en-US`;
   const options = {
     method: "GET",
     headers: {
@@ -22,4 +21,4 @@ const fetchMovieDetails = async (movieId: string) => {
   }
 };
 
-export default fetchMovieDetails;
+export default fetchShowDetails;
